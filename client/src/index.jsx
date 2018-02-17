@@ -29,6 +29,22 @@ class App extends React.Component {
       })
   }
 
+  fetch() {
+    $.ajax({
+      url: '/repos',
+      type: 'GET',
+      success: (data) => {
+        console.log(data);
+      },
+      err: () => {
+        console.log('error, failed to post');
+      }
+    })
+  }
+
+  componentWillUnmount() {
+    fetch();
+  }
   render () {
     return (<div>
       <h1>Github Fetcher</h1>

@@ -1,7 +1,9 @@
 const express = require('express');
-const save = require('../database/index').save
+const db = require('../database/index')
 const mongoose = require('mongoose');
 const getRepos = require('../helpers/github');
+var Promise = require("bluebird");
+var mongoosePromise = Promise.promisifyAll(require('mongoose'))
 
 
 mongoose.connect('mongodb://localhost/fetcher');
@@ -14,25 +16,22 @@ app.use(bodyParser.text());
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function (req, res) {
-  // TODO - your code here!
-
   var username = req.body
   getRepos.getReposByUsername(username, (data) => {
-    save(JSON.parse(data));
+    db.save(JSON.parse(data));
   });
-  // save(data);
   res.send('you just posted to the server!!')
-  console.log(username);
-
-  // This route should take the github username provided
-  // and get the repo information from the github API, then
-  // save the repo information in the database
 });
 
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
+  db.fetch((data) => {
+    console.log(data, 'this is the data')
+    res.send(data)
+  })
 });
+
 
 
 let port = 1128;
