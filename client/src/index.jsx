@@ -14,12 +14,12 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
-    var post = (term) => {
+
       $.ajax({
-        url: '127.0.0.1:1128/repos',
+        url: '/repos',
         type: 'POST',
-        contentType: 'application/json',
-        data: {username: term},
+        contentType: 'text/plain',
+        data: term,
         success: () => {
           console.log('successfully posted')
         },
@@ -27,8 +27,6 @@ class App extends React.Component {
           console.log('error, failed to post');
         }
       })
-    }
-    post(term);
   }
 
   render () {

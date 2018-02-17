@@ -1,14 +1,15 @@
 const express = require('express');
-const save = require('../database/index');
+const save = require('../database/index').save
 const mongoose = require('mongoose');
 const getRepos = require('../helpers/github');
+
 
 mongoose.connect('mongodb://localhost/fetcher');
 
 var bodyParser = require('body-parser');
 
 let app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.text());
 
 app.use(express.static(__dirname + '/../client/dist'));
 
@@ -16,7 +17,10 @@ app.post('/repos', function (req, res) {
   // TODO - your code here!
 
   var username = req.body
-  res.send('hey!')
+  var data = getRepos.getReposByUsername(username);
+  save(data);
+  res.send('you just posted to the server!!')
+  console.log(username);
 
   // This route should take the github username provided
   // and get the repo information from the github API, then

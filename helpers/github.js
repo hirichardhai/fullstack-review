@@ -6,7 +6,9 @@ let getReposByUsername = (username) => {
   // user from the github API
   var callback = (err, res, body) => {
     if (err) console.error(err);
-    console.log(body);
+    
+    console.log('tried to get info from github api');
+    return body;
   }
 // The options object has been provided to help you out, 
 // but you'll have to fill in the URL
