@@ -17,8 +17,10 @@ app.post('/repos', function (req, res) {
   // TODO - your code here!
 
   var username = req.body
-  var data = getRepos.getReposByUsername(username);
-  save(data);
+  getRepos.getReposByUsername(username, (data) => {
+    save(JSON.parse(data));
+  });
+  // save(data);
   res.send('you just posted to the server!!')
   console.log(username);
 
