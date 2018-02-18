@@ -14,7 +14,6 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
-
       $.ajax({
         url: '/repos',
         type: 'POST',
@@ -34,7 +33,11 @@ class App extends React.Component {
       url: '/repos',
       type: 'GET',
       success: (data) => {
-        console.log(data);
+        console.log(data, 'successfully get from /repos');
+        this.setState({
+          repos: data
+        })
+        console.log(this.state.repos, 'this is the repos fetch');
       },
       err: () => {
         console.log('error, failed to post');
@@ -42,14 +45,11 @@ class App extends React.Component {
     })
   }
 
-  componentWillUnmount() {
-    fetch();
-  }
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
       <RepoList repos={this.state.repos}/>
-      <Search onSearch={this.search.bind(this)}/>
+      <Search onSearch={this.search.bind(this)} onFetch={this.fetch.bind(this)}/>
     </div>)
   }
 }
